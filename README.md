@@ -2,7 +2,7 @@
 
 [![Notion Challenge](https://img.shields.io/badge/Notion-Challenge%202026-blue)](https://dev.to/challenges/notion-2026-03-04)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Build Status](https://img.shields.io/badge/Build-Success-green)](https://github.com/your-username/cortex)
+[![Build Status](https://img.shields.io/badge/Build-Success-green)](https://github.com/RamanSharma100/cortex-notion)
 
 > "The best way to predict the future is to build it. The fastest way to build it is with Cortex." — _Modern Founder Proverb_ 🧘‍♂️
 
@@ -54,8 +54,9 @@ npm install -g cortex-notion
 ```
 
 ### Manual Installation (Developer Flow)
+
 ```bash
-git clone https://github.com/your-username/cortex-notion.git
+git clone https://github.com/RamanSharma100/cortex-notion.git
 cd cortex-notion
 npm install
 npm run build
@@ -92,4 +93,4 @@ Cortex is licensed under the MIT License - see the [LICENSE](LICENSE) file for d
 _“Why did the startup founder cross the road?”_
 _“To find a more sustainable way to disrupt the other side.”_ 😂 🚀
 
-**Built with ❤️ for the Notion 2026 Challenge.**
+**Built with ❤️ for the Notion 2026 Challenge. Let's build the future together!**

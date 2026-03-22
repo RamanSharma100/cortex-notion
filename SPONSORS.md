@@ -16,8 +16,6 @@ Help the maintainers keep the CLI fast and the research deep.
 
 ### Ways to Sponsor:
 
-- [GitHub Sponsors](https://github.com/sponsors/your-username)
-- [Patreon](https://patreon.com/your-username)
-- [Buy Me a Coffee](https://buymeacoffee.com/your-username)
+- [GitHub Sponsors](https://github.com/sponsors/RamanSharma100)
 
 Thank you to all who support the creation of open-source tools for founders!

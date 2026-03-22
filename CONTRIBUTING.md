@@ -4,7 +4,7 @@ First off, thank you for considering contributing to Cortex! We appreciate your 
 
 ## Development Setup
 
-1.  **Clone the repo**: `git clone https://github.com/your-username/cortex-notion.git`
+1.  **Clone the repo**: `git clone https://github.com/RamanSharma100/cortex-notion.git`
 2.  **Install dependencies**: `pnpm install`
 3.  **Build**: `pnpm run build`
 4.  **Run locally**: `pnpm run start`
@@ -14,17 +14,22 @@ First off, thank you for considering contributing to Cortex! We appreciate your 
 Cortex uses **Jest** for unit testing. Before submitting a Pull Request, ensure all tests pass.
 
 ### 🧪 Run all tests
+
 ```bash
 pnpm test
 ```
 
 ### 🧩 Linting & Formatting
-We use ESLint and Prettier to keep the code clean. 
+
+We use ESLint and Prettier to keep the code clean.
+
 - To check: `pnpm run lint`
 - To auto-format: `pnpm run format`
 
 ## Feature Testing Checklist
+
 When adding a new command or agent, please verify:
+
 1.  **Command Parsing**: Update `src/commands/parser.ts` and ensure it recognizes your new command.
 2.  **Notion Logic**: Test with active Notion integration to ensure properties are correctly nested.
 3.  **AI Fallback**: Ensure the tool handles OpenAI errors (like 401/429) gracefully.
@@ -39,4 +44,5 @@ When adding a new command or agent, please verify:
 6.  Issue that pull request!
 
 ## Need Help?
-Contact the maintainers at [INSERT EMAIL].
+
+Contact the maintainers at [techraman100@gmail.com].
