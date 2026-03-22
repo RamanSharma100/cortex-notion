@@ -34,6 +34,7 @@ const getClient = async (token: string) => {
   if (mcpClient) return mcpClient;
   console.log('⌛ Connecting to Notion MCP...');
   mcpClient = await createNotionMCPClient(token);
+
   console.log('🚀 Cortex is online and ready.\n');
   return mcpClient;
 };
@@ -149,7 +150,7 @@ const main = async () => {
               icon: '🔍',
             });
             if (!researchPageId) throw new Error('Could not create research page in Notion.');
-            
+
             await notion.appendLongText(researchPageId, researchResult);
             console.log('✅ Success! Research drafted in Notion.');
             break;

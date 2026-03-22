@@ -87,66 +87,115 @@ export class NotionManager {
   }
 
   async appendLongText(blockId: string, text: string): Promise<void> {
-    const lines = text.split('\n').filter(l => l.trim() !== '');
+    const lines = text.split('\n');
+    const children: any[] = [];
     
-    const children = lines.map(line => {
-      const trimmed = line.trim();
+    let i = 0;
+    while (i < lines.length) {
+      const line = lines[i].trim();
       
-      if (trimmed.startsWith('#')) {
-        const content = trimmed.replace(/^#+\s*/, '');
-        return {
+      if (!line) {
+        i++;
+        continue;
+      }
+
+      // TABLE DETECTION: contigous lines starting with |
+      if (line.startsWith('|')) {
+        const tableLines: string[] = [];
+        while (i < lines.length && lines[i].trim().startsWith('|')) {
+          const l = lines[i].trim();
+          // Skip the divider line | --- | --- |
+          if (!l.match(/^\|?\s*:?-+:?\s*\|/)) {
+            tableLines.push(l);
+          }
+          i++;
+        }
+
+        if (tableLines.length > 0) {
+          const rows = tableLines.map(tLine => {
+            const cells = tLine.split('|').filter((_, idx, arr) => idx > 0 && idx < arr.length - 1);
+            return {
+              type: 'table_row',
+              table_row: {
+                cells: cells.map(cell => this.parseMarkdownRichText(cell.trim()))
+              }
+            };
+          });
+
+          children.push({
+            type: 'table',
+            table: {
+              table_width: rows[0].table_row.cells.length,
+              has_column_header: true,
+              children: rows
+            }
+          });
+        }
+        continue;
+      }
+
+      // HEADER
+      if (line.startsWith('#')) {
+        const content = line.replace(/^#+\s*/, '');
+        children.push({
           type: 'heading_3',
-          heading_3: {
-            rich_text: this.parseMarkdownRichText(content)
-          }
-        };
+          heading_3: { rich_text: this.parseMarkdownRichText(content) }
+        });
+        i++;
+        continue;
       }
 
-      if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
-        const content = trimmed.replace(/^[-*]\s*/, '');
-        return {
+      // BULLETS
+      if (line.startsWith('- ') || line.startsWith('* ')) {
+        const content = line.replace(/^[-*]\s*/, '');
+        children.push({
           type: 'bulleted_list_item',
-          bulleted_list_item: {
-            rich_text: this.parseMarkdownRichText(content)
-          }
-        };
+          bulleted_list_item: { rich_text: this.parseMarkdownRichText(content) }
+        });
+        i++;
+        continue;
       }
 
-      if (trimmed.startsWith('> ')) {
-        const content = trimmed.replace(/^>\s*/, '');
-        return {
+      // QUOTES
+      if (line.startsWith('> ')) {
+        const content = line.replace(/^>\s*/, '');
+        children.push({
           type: 'quote',
-          quote: {
-            rich_text: this.parseMarkdownRichText(content)
-          }
-        };
+          quote: { rich_text: this.parseMarkdownRichText(content) }
+        });
+        i++;
+        continue;
       }
 
-      if (trimmed.startsWith('[!] ')) {
-        const content = trimmed.replace(/^\[!\]\s*/, '');
-        return {
+      // CALLOUTS
+      if (line.startsWith('[!] ')) {
+        const content = line.replace(/^\[!\]\s*/, '');
+        children.push({
           type: 'callout',
           callout: {
             rich_text: this.parseMarkdownRichText(content),
             icon: { type: 'emoji', emoji: '💡' }
           }
-        };
+        });
+        i++;
+        continue;
       }
 
-      return {
+      // DEFAULT PARAGRAPH
+      children.push({
         type: 'paragraph',
-        paragraph: {
-          rich_text: this.parseMarkdownRichText(trimmed)
-        }
-      };
-    });
+        paragraph: { rich_text: this.parseMarkdownRichText(line) }
+      });
+      i++;
+    }
 
-    for (let i = 0; i < children.length; i += 100) {
+    // Chunk children into groups of 100
+    for (let j = 0; j < children.length; j += 100) {
       await this.client.callTool({
         name: 'API-patch-block-children',
         arguments: {
           block_id: blockId,
-          children: children.slice(i, i + 100)
+          children: children.slice(j, j + 100)
         }
       });
     }
