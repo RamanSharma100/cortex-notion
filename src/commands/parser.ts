@@ -41,6 +41,10 @@ export class CommandParser {
       return { type: 'plan', value: trimmed.replace('plan:', '').trim() };
     }
 
+    if (trimmed.startsWith('stories:')) {
+      return { type: 'stories', value: trimmed.replace('stories:', '').trim() };
+    }
+
     if (trimmed === 'status') {
       return { type: 'status', value: '' };
     }

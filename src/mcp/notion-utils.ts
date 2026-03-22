@@ -112,6 +112,27 @@ export class NotionManager {
         };
       }
 
+      if (trimmed.startsWith('> ')) {
+        const content = trimmed.replace(/^>\s*/, '');
+        return {
+          type: 'quote',
+          quote: {
+            rich_text: this.parseMarkdownRichText(content)
+          }
+        };
+      }
+
+      if (trimmed.startsWith('[!] ')) {
+        const content = trimmed.replace(/^\[!\]\s*/, '');
+        return {
+          type: 'callout',
+          callout: {
+            rich_text: this.parseMarkdownRichText(content),
+            icon: { type: 'emoji', emoji: '💡' }
+          }
+        };
+      }
+
       return {
         type: 'paragraph',
         paragraph: {
@@ -146,6 +167,42 @@ export class NotionManager {
       }
     });
   }
+  async createDatabase(pageId: string, title: string): Promise<string> {
+    const result = await this.client.callTool({
+      name: 'API-post-database',
+      arguments: {
+        parent: { type: 'page_id', page_id: pageId },
+        title: [{ type: 'text', text: { content: title } }],
+        properties: {
+          Name: { title: {} },
+          Status: { select: { options: [
+            { name: 'To Do', color: 'red' },
+            { name: 'In Progress', color: 'blue' },
+            { name: 'Done', color: 'green' }
+          ]}},
+          Priority: { select: { options: [
+            { name: 'High', color: 'orange' },
+            { name: 'Medium', color: 'yellow' },
+            { name: 'Low', color: 'gray' }
+          ]}},
+          Deadline: { date: {} }
+        }
+      }
+    });
+    return this.extractId(result);
+  }
+
+  async createDatabasePage(databaseId: string, properties: any): Promise<string> {
+    const result = await this.client.callTool({
+      name: 'API-post-page',
+      arguments: {
+        parent: { database_id: databaseId },
+        properties
+      }
+    });
+    return this.extractId(result);
+  }
+
   async searchPages(query?: string): Promise<any[]> {
     const result = await this.client.callTool({
       name: 'API-post-search',
@@ -153,6 +210,25 @@ export class NotionManager {
         query: query || '',
         filter: { property: 'object', value: 'page' },
         sort: { direction: 'descending', timestamp: 'last_edited_time' }
+      }
+    });
+
+    if (result.isError) return [];
+    
+    try {
+      const data = JSON.parse((result as any).content[0].text);
+      return data.results || [];
+    } catch {
+      return [];
+    }
+  }
+
+  async searchDatabases(query?: string): Promise<any[]> {
+    const result = await this.client.callTool({
+      name: 'API-post-search',
+      arguments: {
+        query: query || '',
+        filter: { property: 'object', value: 'database' }
       }
     });
 

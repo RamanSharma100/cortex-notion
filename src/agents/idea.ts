@@ -7,9 +7,13 @@ export const createIdea = async (client: Client, idea: string) => {
   console.log(`💡 Processing idea: ${idea}...`);
 
   try {
-    const prompt = `Write a compelling 2-3 paragraph description for a startup idea: "${idea}". 
-    Focus on the problem it solves, the unique value proposition, and the target audience. 
-    Make it professional and inspiring.`;
+    const prompt = `Write a professional briefing for the startup idea: "${idea}". 
+    Format it as a premium strategy document:
+    - Start with a "[!] Summary" callout highlighting the core innovation.
+    - Use "###" for clear sections: Problem, Solution, Moat.
+    - Use "> " for the unique "Moat" or competitive advantage.
+    - End with a list of 5 "Immediate Next Steps".
+    Make it compelling, actionable, and ready for a pitch deck.`;
 
     console.log('✨ Generating AI content...');
     const content = await generateAIContent(prompt);

@@ -179,6 +179,7 @@ const main = async () => {
             console.log('  research: [topic]- Generate a deep market analysis report');
             console.log('  brainstorm: [msg]- Generate 20 fresh project ideas');
             console.log('  tasks: [project] - Inject 10 MVP tasks into an existing page');
+            console.log('  stories: [topic] - Generate persona-driven user stories');
             console.log('  investor: [topic]- Draft pitch deck points and "Why Now?" insights');
             console.log('  status           - See recent Notion pages and connection info');
             console.log('  help             - Show this menu');

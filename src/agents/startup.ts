@@ -1,6 +1,8 @@
 import { Client } from '@modelcontextprotocol/sdk/client';
 import { NotionManager } from '../mcp/notion-utils';
 import { generateAIContent } from '../utils/ai';
+import { generateTasks } from './tasks';
+import { generateStories } from './stories';
 
 interface StartupSection {
   name: string;
@@ -10,7 +12,7 @@ interface StartupSection {
 
 const setupRootPage = async (notion: NotionManager, idea: string): Promise<string> => {
   const pageId = await notion.createPage({
-    title: `Project: ${idea}`,
+    title: idea,
     parent: { type: 'workspace', workspace: true },
     icon: '🚀'
   });
@@ -32,7 +34,12 @@ const createSubpageWithAIContent = async (
   if (!subpageId) throw new Error(`Subpage ${section.name} creation failed.`);
 
   const prompt = `${section.descriptionPrompt} Idea: "${parentId}" (Theme: ${section.name}). 
-                 Target at least 2 key paragraphs of actionable startup planning.`;
+                 Format the output to look like a premium strategy report:
+                 - Start with a "[!] TL;DR" callout highlighting the most critical takeaway.
+                 - Use "###" for clearly titled sub-sections.
+                 - Use "> " for important founder-proverbs or strategic quotes.
+                 - Use "**" for key bold terms.
+                 Target deep, actionable startup planning.`;
   
   const content = await generateAIContent(prompt);
   if (!content || content.length < 50) {
@@ -65,16 +72,13 @@ const getStartupSections = (idea: string): StartupSection[] => [
   { 
     name: 'Tasks & Milestones', 
     icon: '📋', 
-    descriptionPrompt: `Create a list of the first 5 actionable steps to launch ${idea} from scratch.` 
+    descriptionPrompt: '' // Special casehandled in loop
   }
 ];
 
 const processError = (error: any): void => {
   console.error(`\n❌ ERROR: System encountered a block while building.`);
   console.error(`  - Message: ${error.message || 'Unknown server error'}`);
-  if (error.response?.data) {
-    console.error(`  - API Response: ${JSON.stringify(error.response.data)}`);
-  }
 };
 
 export const buildStartup = async (client: Client, idea: string) => {
@@ -88,10 +92,20 @@ export const buildStartup = async (client: Client, idea: string) => {
     const sections = getStartupSections(idea);
     for (const section of sections) {
       console.log(`  - Drafting ${section.name}...`);
-      await createSubpageWithAIContent(notion, rootPageId, section);
+      if (section.name === 'Tasks & Milestones') {
+        // This section is now handled separately after the loop
+      } else {
+        await createSubpageWithAIContent(notion, rootPageId, section);
+      }
     }
 
-    console.log('\n🌟 SUCCESS: Your modular startup workspace is fully built and AI-populated!');
+    console.log('  - Creating professional Tasks Database...');
+    await generateTasks(client, idea, rootPageId);
+
+    console.log('  - Creating User Stories Database...');
+    await generateStories(client, idea, rootPageId);
+
+    console.log('\n🌟 SUCCESS: Your modular startup workspace is fully built with structured strategy pages, Roadmap, and User Stories Databases!');
   } catch (error: any) {
     processError(error);
   }
