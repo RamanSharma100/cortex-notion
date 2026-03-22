@@ -45,6 +45,10 @@ export class CommandParser {
       return { type: 'status', value: '' };
     }
 
+    if (trimmed === 'help') {
+      return { type: 'help' };
+    }
+
     return { type: 'unknown', value: trimmed };
   };
 }

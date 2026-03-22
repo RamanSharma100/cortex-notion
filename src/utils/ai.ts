@@ -9,7 +9,6 @@ export const generateAIContent = async (
   const geminiKey = Session.getGeminiKey();
   const openAIKey = Session.getAIKey();
 
-  // Prioritize Gemini for "Free Tier" request
   if (geminiKey) {
     try {
       console.log('✨ AI is thinking with Gemini...');
@@ -19,7 +18,6 @@ export const generateAIContent = async (
       return result.response.text();
     } catch (error: any) {
       console.error('❌ Gemini Error:', error.message);
-      // Fallback only if model is default and OpenAI is present
       if (!openAIKey) throw error;
       console.log('🔄 Gemini failed, falling back to OpenAI...');
     }
@@ -35,7 +33,7 @@ export const generateAIContent = async (
 
   try {
     const response = await (openai as any).responses.create({
-      model: 'gpt-4.1-mini', // or the user's default
+      model: 'gpt-4.1-mini',
       input: prompt,
     });
 

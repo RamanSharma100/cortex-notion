@@ -170,6 +170,21 @@ const main = async () => {
             console.log(`- Time: ${new Date().toLocaleTimeString()}\n`);
             break;
 
+          case 'help':
+            console.log('\n🧠 Cortex CLI - Available Commands:');
+            console.log('  notion login     - Authorize your Notion workspace');
+            console.log('  ai login         - Set your OpenAI or Gemini API key');
+            console.log('  build: [topic]   - Build a full 6-page startup workspace');
+            console.log('  idea: [topic]    - Save a quick startup concept page');
+            console.log('  research: [topic]- Generate a deep market analysis report');
+            console.log('  brainstorm: [msg]- Generate 20 fresh project ideas');
+            console.log('  tasks: [project] - Inject 10 MVP tasks into an existing page');
+            console.log('  investor: [topic]- Draft pitch deck points and "Why Now?" insights');
+            console.log('  status           - See recent Notion pages and connection info');
+            console.log('  help             - Show this menu');
+            console.log('  exit             - Shutdown the CLI\n');
+            break;
+
           case 'unknown':
             console.log(
               `❓ Unknown command: "${trimmedInput}". Try "idea:", "research:", or "build:".`,

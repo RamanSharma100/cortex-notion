@@ -20,7 +20,7 @@ export const createIdea = async (client: Client, idea: string) => {
 
     console.log('🚀 Creating Notion page...');
     const pageId = await notion.createPage({
-      title: `Idea: ${idea}`,
+      title: `${idea}`,
       parent: { type: 'workspace', workspace: true },
       icon: '💡',
     });

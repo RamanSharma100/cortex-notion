@@ -63,23 +63,72 @@ export class NotionManager {
     });
   }
 
-  async appendLongText(blockId: string, text: string): Promise<void> {
-    const paragraphs = text.split('\n').filter(p => p.trim() !== '');
-    
-    const children = paragraphs.map(p => ({
-      type: 'paragraph',
-      paragraph: {
-        rich_text: [{ type: 'text', text: { content: p } }]
-      }
-    }));
+  private parseMarkdownRichText(text: string): any[] {
+    const parts: any[] = [];
+    const regex = /(\*\*.*?\*\*)/g;
+    const splitText = text.split(regex);
 
-    await this.client.callTool({
-      name: 'API-patch-block-children',
-      arguments: {
-        block_id: blockId,
-        children
+    for (const part of splitText) {
+      if (part.startsWith('**') && part.endsWith('**')) {
+        parts.push({
+          type: 'text',
+          text: { content: part.slice(2, -2) },
+          annotations: { bold: true }
+        });
+      } else if (part.length > 0) {
+        parts.push({
+          type: 'text',
+          text: { content: part }
+        });
       }
+    }
+    
+    return parts.length > 0 ? parts : [{ type: 'text', text: { content: text } }];
+  }
+
+  async appendLongText(blockId: string, text: string): Promise<void> {
+    const lines = text.split('\n').filter(l => l.trim() !== '');
+    
+    const children = lines.map(line => {
+      const trimmed = line.trim();
+      
+      if (trimmed.startsWith('#')) {
+        const content = trimmed.replace(/^#+\s*/, '');
+        return {
+          type: 'heading_3',
+          heading_3: {
+            rich_text: this.parseMarkdownRichText(content)
+          }
+        };
+      }
+
+      if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
+        const content = trimmed.replace(/^[-*]\s*/, '');
+        return {
+          type: 'bulleted_list_item',
+          bulleted_list_item: {
+            rich_text: this.parseMarkdownRichText(content)
+          }
+        };
+      }
+
+      return {
+        type: 'paragraph',
+        paragraph: {
+          rich_text: this.parseMarkdownRichText(trimmed)
+        }
+      };
     });
+
+    for (let i = 0; i < children.length; i += 100) {
+      await this.client.callTool({
+        name: 'API-patch-block-children',
+        arguments: {
+          block_id: blockId,
+          children: children.slice(i, i + 100)
+        }
+      });
+    }
   }
   async appendBulletedList(blockId: string, items: string[]): Promise<void> {
     const listItems = items.filter(item => item.trim() !== '').map(item => ({

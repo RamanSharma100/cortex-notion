@@ -10,10 +10,10 @@ export const brainstormTopic = async (client: Client, topic: string) => {
     const prompt = `Generate exactly 20 unique and innovative startup ideas related to: "${topic}". 
     Format each idea as a short, catchy title followed by a one-sentence hook.
     Separate each idea with a newline.`;
-    
+
     console.log('✨ AI is brainstorming...');
     const content = await generateAIContent(prompt);
-    const ideas = content.split('\n').filter(i => i.trim() !== '');
+    const ideas = content.split('\n').filter((i) => i.trim() !== '');
 
     if (ideas.length === 0) {
       throw new Error('AI could not generate any ideas. Check your prompt or API status.');
@@ -21,9 +21,9 @@ export const brainstormTopic = async (client: Client, topic: string) => {
 
     console.log('🚀 Creating Brainstorming page in Notion...');
     const pageId = await notion.createPage({
-      title: `Brainstorm: ${topic}`,
+      title: `${topic}`,
       parent: { type: 'workspace', workspace: true },
-      icon: '🧠'
+      icon: '🧠',
     });
 
     await notion.appendBulletedList(pageId, ideas);

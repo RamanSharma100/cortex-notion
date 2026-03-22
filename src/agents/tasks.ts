@@ -18,7 +18,6 @@ export const generateTasks = async (client: Client, idea: string) => {
       throw new Error('AI failed to generate actionable tasks. Try a more specific idea.');
     }
     
-    // Search for existing Project page if any
     const pages = await notion.searchPages(idea);
     const targetPage = pages.find(p => p.icon?.emoji === '🚀' || p.icon?.emoji === '💡');
     

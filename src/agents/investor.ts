@@ -10,24 +10,23 @@ export const createPitchDeck = async (client: Client, idea: string) => {
     const prompt = `Create high-impact pitch deck points for a startup idea: "${idea}". 
     Focus on the "Why Now?", the "Killer Metric," the competitive advantage, and the scalability.
     Ensure sections are well-defined for an investor presentation.`;
-    
+
     console.log('✨ Generating pitch deck insights with AI...');
     const content = await generateAIContent(prompt);
-    
+
     if (!content || content.length < 50) {
       throw new Error('AI produced insufficient pitch deck content.');
     }
 
-    // Create new Pitch Deck page
     console.log('🚀 Creating Investor Pitch page...');
     const pageId = await notion.createPage({
       title: `Pitch Deck: ${idea}`,
       parent: { type: 'workspace', workspace: true },
-      icon: '🏛️'
+      icon: '🏛️',
     });
 
     if (!pageId) throw new Error('Could not create pitch deck page in Notion.');
-    
+
     await notion.appendLongText(pageId, content);
 
     console.log(`✅ Success! Pitch deck points for "${idea}" are live in Notion.`);

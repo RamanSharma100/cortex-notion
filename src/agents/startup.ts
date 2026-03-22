@@ -43,27 +43,27 @@ const createSubpageWithAIContent = async (
 
 const getStartupSections = (idea: string): StartupSection[] => [
   { 
-    name: '💡 Core Concept', 
+    name: 'Core Concept', 
     icon: '💡', 
     descriptionPrompt: `Draft a deep dive into the business model and value proposition for: ${idea}.` 
   },
   { 
-    name: '🔍 Market Analysis', 
+    name: 'Market Analysis', 
     icon: '🔍', 
     descriptionPrompt: `Provide estimated market size, current trends, and target customer segments for a startup focused on: ${idea}.` 
   },
   { 
-    name: '⚔️ Competitor Landscape', 
+    name: 'Competitor Landscape', 
     icon: '⚔️', 
     descriptionPrompt: `Identify potential competitors for ${idea} and outline where the gaps are in their current offerings.` 
   },
   { 
-    name: '✨ Product Roadmap & MVP', 
+    name: 'Product Roadmap & MVP', 
     icon: '✨', 
     descriptionPrompt: `Construct an MVP development timeline for ${idea}, prioritizing features from highest to lowest impact.` 
   },
   { 
-    name: '📋 Tasks & Milestones', 
+    name: 'Tasks & Milestones', 
     icon: '📋', 
     descriptionPrompt: `Create a list of the first 5 actionable steps to launch ${idea} from scratch.` 
   }
