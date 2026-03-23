@@ -35,7 +35,7 @@
     "planner",
     "gpt-4"
   ],
-  "author": "Antigravity",
+  "author": "Raman Sharma",
   "license": "MIT",
   "packageManager": "pnpm@10.32.1",
   "dependencies": {
