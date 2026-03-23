@@ -6,7 +6,7 @@
 
 > "The best way to predict the future is to build it. The fastest way to build it is with Cortex." — _Modern Founder Proverb_ 🧘‍♂️
 
-Cortex is a state-of-the-art CLI agent that turns your raw startup ideas into a fully structured, multi-page business workspace in Notion within seconds. Powered by the **Model Context Protocol (MCP)** and a **Resilient Multi-Model Architecture** (**Gemini 1.5/2.0 Array + GPT-4**), it’s like having a Chief of Staff in your terminal.
+Cortex is a state-of-the-art CLI agent that turns your raw startup ideas into a fully structured, multi-page business workspace in Notion within seconds. Powered by the **Model Context Protocol (MCP)** and a **Resilient Multi-Model Architecture** (**Gemini 3.1/2.5 Array + GPT-4.1**), it’s like having a Chief of Staff in your terminal.
 
 ---
 
@@ -38,7 +38,7 @@ Generates high-impact "Why Now?" insights and competitive moats to help you land
 
 ## 🛠️ The Tech Stack
 
-- **Dual-Brain Powered**: Supports both **Google Gemini** (for ultra-fast free tier generation) and **OpenAI**.
+- **Dual-Brain Powered**: Supports both **Google Gemini** (for ultra-fast generation with 3.1/2.5 Array) and **OpenAI**.
 - **Notion MCP**: Deep integration via the Model Context Protocol for secure, structured page management.
 - **ESM Architecture**: Modern TypeScript codebase bundled into a single high-performance binary with `tsup`.
 - **Automated OAuth**: Zero manual token-hunting. A local callback server handles everything.
