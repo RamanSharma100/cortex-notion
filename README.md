@@ -6,7 +6,7 @@
 
 > "The best way to predict the future is to build it. The fastest way to build it is with Cortex." — _Modern Founder Proverb_ 🧘‍♂️
 
-![Blog Link](https://dev.to/techraman100/cortex-the-ai-powered-notion-cli-that-builds-your-entire-startup-workspace-in-30-seconds-4b42)
+[Blog Link](https://dev.to/techraman100/cortex-the-ai-powered-notion-cli-that-builds-your-entire-startup-workspace-in-30-seconds-4b42)
 
 Cortex is a state-of-the-art CLI agent that turns your raw startup ideas into a fully structured, multi-page business workspace in Notion within seconds. Powered by the **Model Context Protocol (MCP)** and a **Resilient Multi-Model Architecture** (**Gemini 3.1/2.5 Array + GPT-4.1**), it’s like having a Chief of Staff in your terminal.
 
