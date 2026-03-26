@@ -101,6 +101,13 @@ const main = async () => {
           continue;
         }
 
+        if (command.type === 'logout') {
+          Session.deleteToken();
+          mcpClient = null;
+          console.log('✅ Logged out from Notion. Session cleared.\n');
+          continue;
+        }
+
         const token = Session.getToken();
         if (!token) {
           console.log('❌ No active session. Please type "notion login" first.');
@@ -174,6 +181,7 @@ const main = async () => {
           case 'help':
             console.log('\n🧠 Cortex CLI - Available Commands:');
             console.log('  notion login     - Authorize your Notion workspace');
+            console.log('  notion logout    - Clear your active Notion session');
             console.log('  ai login         - Set your OpenAI or Gemini API key');
             console.log('  build: [topic]   - Build a full 6-page startup workspace');
             console.log('  idea: [topic]    - Save a quick startup concept page');

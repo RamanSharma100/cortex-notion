@@ -46,4 +46,8 @@ export class Session {
   static clear = () => {
     if (fs.existsSync(SESSION_FILE)) fs.unlinkSync(SESSION_FILE);
   };
+  static deleteToken = () => {
+    const store = Session.getStore();
+    Session.saveStore({ ...store, token: null });
+  };
 }

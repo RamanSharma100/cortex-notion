@@ -10,6 +10,10 @@ export class CommandParser {
       return { type: 'ai-login' };
     }
 
+    if (trimmed === 'notion logout' || trimmed === 'logout') {
+      return { type: 'logout' };
+    }
+
     if (trimmed.startsWith('idea:')) {
       return { type: 'idea', value: trimmed.replace('idea:', '').trim() };
     }

@@ -8,7 +8,12 @@
 
 [Blog Link](https://dev.to/techraman100/cortex-the-ai-powered-notion-cli-that-builds-your-entire-startup-workspace-in-30-seconds-4b42) [Demo Video](https://youtu.be/i5BSp_Dg-IA)
 
-Cortex is a state-of-the-art CLI agent that turns your raw startup ideas into a fully structured, multi-page business workspace in Notion within seconds. Powered by the **Model Context Protocol (MCP)** and a **Resilient Multi-Model Architecture** (**Gemini 3.1/2.5 Array + GPT-4.1**), it’s like having a Chief of Staff in your terminal.
+Cortex is a state-of-the-art CLI agent that turns your raw startup ideas into a fully structured, multi-page business workspace in Notion within seconds. Powered by the **Model Context Protocol (MCP)** and a **Resilient Multi-Model & Dual Brain Architecture** (**Gemini Array + GPT-4.1**), it’s like having a Chief of Staff in your terminal.
+
+### 🏗️ Status: In Active Development
+
+> **Built exclusively for the [Notion MCP Challenge 2026](https://dev.to/challenges/notion-2026-03-04).**
+> Currently in the "Pre-Alpha" stage. We are refining the AI-to-Notion block conversion and adding more niche strategy agents (e.g., Legal, HR).
 
 ---
 
@@ -69,7 +74,9 @@ npm link      # This makes the 'cortex' command available globally
 
 1.  **Authorize Notion**:
     `cortex > notion login` (Automatically handles the redirect!)
-2.  **Set your Brain**:
+2.  **Clear Session**:
+    `cortex > notion logout` (To switch workspaces or log out).
+3.  **Set your Brain**:
     `cortex > ai login` (Choose Gemini for free/fast or OpenAI for logic).
 
 ### Usage
