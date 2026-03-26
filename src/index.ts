@@ -10,6 +10,7 @@ import { researchIdea } from './agents/research';
 import { brainstormTopic } from './agents/brainstorm';
 import { generateTasks } from './agents/tasks';
 import { createPitchDeck } from './agents/investor';
+import { generateStories } from './agents/stories';
 import { Client } from '@modelcontextprotocol/sdk/client';
 import { NotionManager } from './mcp/notion-utils';
 import { generateAIContent } from './utils/ai';
@@ -141,6 +142,11 @@ const main = async () => {
           case 'investor':
             console.log(`📊 Pitching for: ${command.value || ''}...`);
             await createPitchDeck(client, command.value || '');
+            break;
+
+          case 'stories':
+            console.log(`🎭 Developing user stories for: ${command.value || ''}...`);
+            await generateStories(client, command.value || '');
             break;
 
           case 'research':
